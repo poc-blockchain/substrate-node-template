@@ -251,6 +251,8 @@ impl pallet_balances::Config for Runtime {
 
 parameter_types! {
 	pub const TransactionByteFee: Balance = 1;
+    // One can own at most 9,999 Kitties
+    pub const MaxPetOwned: u32 = 9999;
 }
 
 impl pallet_transaction_payment::Config for Runtime {
@@ -269,6 +271,10 @@ impl pallet_sudo::Config for Runtime {
 /// Configure the pallet-template in pallets/template.
 impl pallet_template::Config for Runtime {
 	type Event = Event;
+
+	// Here we have abstracted out the randomness generation implementation (RandomnessCollectiveFlip) from its interface (Randomness<Self::Hash, Self::BlockNumber> trait).
+	type PetRandomness = RandomnessCollectiveFlip;
+	type MaxPetOwned = MaxPetOwned;
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
