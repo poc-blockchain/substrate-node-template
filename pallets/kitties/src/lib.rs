@@ -13,6 +13,7 @@ pub mod pallet {
         transactional
     };
     use sp_io::hashing::blake2_128;
+    use pallet_timestamp;
 
     #[cfg(feature = "std")]
     use frame_support::serde::{Deserialize, Serialize};
@@ -30,6 +31,7 @@ pub mod pallet {
         pub price: Option<BalanceOf<T>>,
         pub gender: Gender,
         pub owner: AccountOf<T>,
+        pub created_at: u64,
     }
 
     #[derive(Clone, Encode, Decode, PartialEq, RuntimeDebug, TypeInfo, MaxEncodedLen)]
@@ -47,7 +49,7 @@ pub mod pallet {
 
     /// Configure the pallet by specifying the parameters and types it depends on.
     #[pallet::config]
-    pub trait Config: frame_system::Config {
+    pub trait Config: frame_system::Config + pallet_timestamp::Config {
         /// Because this pallet emits events, it depends on the runtime's definition of an event.
         type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
 
@@ -139,8 +141,9 @@ pub mod pallet {
         pub fn create_kitty(origin: OriginFor<T>) -> DispatchResult {
             let sender = ensure_signed(origin)?;
             let kitty_id = Self::mint(&sender, None, None)?;
+
             // Logging to the console
-            log::info!("A kitty is born with ID: {:?}.", kitty_id);
+            log::info!("A kitty is born with ID: {:?}", kitty_id);
 
             Self::deposit_event(Event::Created(sender, kitty_id));
 
@@ -243,9 +246,9 @@ pub mod pallet {
         /// of Kitties.
         #[pallet::weight(100)]
         pub fn breed_kitty(
-        origin: OriginFor<T>,
-        parent1: T::Hash,
-        parent2: T::Hash
+            origin: OriginFor<T>,
+            parent1: T::Hash,
+            parent2: T::Hash
         ) -> DispatchResult {
         let sender = ensure_signed(origin)?;
 
@@ -305,13 +308,14 @@ pub mod pallet {
             dna: Option<[u8; 16]>,
             gender: Option<Gender>,
         ) -> Result<T::Hash, Error<T>> {
+            let now = pallet_timestamp::Pallet::<T>::get();
             let kitty = Kitty::<T> {
                 dna: dna.unwrap_or_else(Self::gen_dna),
                 price: None,
                 gender: gender.unwrap_or_else(Self::gen_gender),
                 owner: owner.clone(),
+                created_at: TryInto::<u64>::try_into(now).ok().unwrap_or_default(),
             };
-
             let kitty_id = T::Hashing::hash_of(&kitty);
 
             // Performs this operation first as it may fail
