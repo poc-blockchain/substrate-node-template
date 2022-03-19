@@ -29,6 +29,9 @@ pallet-timestamp = { default-features = false, version = "4.0.0-dev", git = "htt
 [dev-dependencies]
 sp-core = { default-features = false, version = "5.0.0", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
 sp-runtime = { default-features = false, version = "5.0.0", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
+pallet-balances = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
+pallet-randomness-collective-flip = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
+pallet-timestamp = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
 
 [features]
 default = ["std"]
