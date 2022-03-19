@@ -23,7 +23,7 @@ pub mod pallet {
         <<T as Config>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
 
     // Struct for holding Kitty information.
-    #[derive(Clone, Encode, Decode, PartialEq, RuntimeDebug, TypeInfo, MaxEncodedLen)]
+    #[derive(Clone, Encode, Decode, PartialEq, TypeInfo, MaxEncodedLen)]
     #[scale_info(skip_type_params(T))]
     #[codec(mel_bound())]
     pub struct Kitty<T: Config> {
@@ -32,6 +32,19 @@ pub mod pallet {
         pub gender: Gender,
         pub owner: AccountOf<T>,
         pub created_at: u64,
+    }
+
+
+    impl<T:Config> sp_std::fmt::Debug for Kitty<T> {
+        fn fmt(&self, f: &mut sp_std::fmt::Formatter<'_>) -> sp_std::fmt::Result {
+            f.debug_struct("Kitty")
+             .field("dna", &self.dna)
+             .field("price", &self.price)
+             .field("gender", &self.gender)
+             .field("owner", &self.owner)
+             .field("created_at", &self.created_at)
+             .finish()
+        }
     }
 
     #[derive(Clone, Encode, Decode, PartialEq, RuntimeDebug, TypeInfo, MaxEncodedLen)]
@@ -141,7 +154,6 @@ pub mod pallet {
         pub fn create_kitty(origin: OriginFor<T>) -> DispatchResult {
             let sender = ensure_signed(origin)?;
             let kitty_id = Self::mint(&sender, None, None)?;
-
             // Logging to the console
             log::info!("A kitty is born with ID: {:?}", kitty_id);
 
@@ -316,6 +328,7 @@ pub mod pallet {
                 owner: owner.clone(),
                 created_at: TryInto::<u64>::try_into(now).ok().unwrap_or_default(),
             };
+            log::info!("Kitty object debug: {:?} ", &kitty);
             let kitty_id = T::Hashing::hash_of(&kitty);
 
             // Performs this operation first as it may fail
@@ -375,4 +388,5 @@ pub mod pallet {
             Ok(())
         }
     }
+
 }
