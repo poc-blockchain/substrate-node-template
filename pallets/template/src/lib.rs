@@ -14,6 +14,9 @@ mod tests;
 #[cfg(feature = "runtime-benchmarks")]
 mod benchmarking;
 
+pub mod weights;
+pub use weights::*;
+
 #[frame_support::pallet]
 pub mod pallet {
 	use frame_support::pallet_prelude::*;
@@ -25,6 +28,7 @@ pub mod pallet {
     use frame_support::sp_runtime::traits::Hash;
     use frame_support::inherent::Vec;
     use frame_support::ensure;
+    use super::*;
 
 	/// Configure the pallet by specifying the parameters and types on which it depends.
 	#[pallet::config]
@@ -38,6 +42,8 @@ pub mod pallet {
         // Maximum pet an account can own
         #[pallet::constant]
         type MaxPetOwned: Get<u32>;
+
+        type WeightInfo: WeightInfo;
 	}
 
     type AccountOf<T> = <T as frame_system::Config>::AccountId;
@@ -141,7 +147,7 @@ pub mod pallet {
 
 		/// An example dispatchable that takes a singles value as a parameter, writes the value to
 		/// storage and emits an event. This function must be dispatched by a signed extrinsic.
-		#[pallet::weight(10_000 + T::DbWeight::get().writes(1))]
+		#[pallet::weight(T::WeightInfo::save_data())]
 		pub fn save_data(origin: OriginFor<T>, something: u32) -> DispatchResult {
 			// Check that the extrinsic was signed and get the signer.
 			// This function will return an error if the extrinsic is not signed.
