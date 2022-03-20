@@ -8,8 +8,15 @@ mod mock;
 #[cfg(test)]
 mod tests;
 
+#[cfg(feature = "runtime-benchmarks")]
+mod benchmarking;
+
+pub mod weights;
+pub use weights::*;
+
 #[frame_support::pallet]
 pub mod pallet {
+    use super::*;
     use scale_info::TypeInfo;
     use frame_support::pallet_prelude::*;
     use frame_system::pallet_prelude::*;
@@ -79,6 +86,8 @@ pub mod pallet {
 
         #[pallet::constant]
         type MaxKittyOwned: Get<u32>;
+
+        type KittiesWeightInfo: weights::WeightInfo;
     }
 
     // Errors.
@@ -156,7 +165,7 @@ pub mod pallet {
     impl<T: Config> Pallet<T> {
 
         // TODO Part III: create_kitty
-        #[pallet::weight(100)]
+        #[pallet::weight(T::KittiesWeightInfo::create_kitty())]
         pub fn create_kitty(origin: OriginFor<T>) -> DispatchResult {
             let sender = ensure_signed(origin)?;
             let kitty_id = Self::mint(&sender, None, None)?;

@@ -87,6 +87,7 @@ impl pallet_kitties::Config for Test {
     type Currency = Balances;
     type MaxKittyOwned = MaxKittyOwned;
     type KittyRandomness = RandomnessCollectiveFlip;
+	type KittiesWeightInfo = ();
 }
 
 // Build genesis storage according to the mock runtime.
@@ -107,5 +108,26 @@ pub fn new_test_ext() -> sp_io::TestExternalities {
 
 	let mut ext = sp_io::TestExternalities::new(t);
 	ext.execute_with(|| System::set_block_number(1));
+	ext
+}
+
+// Build genesis storage according to the mock runtime when benchmarking
+pub fn new_test_ext_benchmark(block_number: u64) -> sp_io::TestExternalities {
+	let mut t = frame_system::GenesisConfig::default().build_storage::<Test>().unwrap();
+	pallet_balances::GenesisConfig::<Test> {
+		balances: vec![
+			(1, 100000000),
+			(2, 100000000),
+			(3, 100000000),
+			(4, 100000000),
+			(5, 100000000),
+			(6, 100000000)
+		],
+	}
+		.assimilate_storage(&mut t)
+		.unwrap();
+
+	let mut ext = sp_io::TestExternalities::new(t);
+	ext.execute_with(|| System::set_block_number(block_number));
 	ext
 }
