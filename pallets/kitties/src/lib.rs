@@ -170,14 +170,14 @@ pub mod pallet {
             let sender = ensure_signed(origin)?;
             let kitty_id = Self::mint(&sender, None, None)?;
             // Logging to the console
-            log::info!("A kitty is born with ID: {:?}", kitty_id);
+            log::info!("A kitty is born with ID: {:?}, total kitty = {}", kitty_id, KittyCnt::<T>::get());
 
             Self::deposit_event(Event::Created(sender, kitty_id));
 
             Ok(())
         }
 
-        #[pallet::weight(100)]
+        #[pallet::weight(T::KittiesWeightInfo::set_price())]
         pub fn set_price(
           origin: OriginFor<T>,
           kitty_id: T::Hash,
@@ -194,14 +194,15 @@ pub mod pallet {
             kitty.price = new_price.clone();
             <Kitties<T>>::insert(&kitty_id, kitty);
         
+            log::info!("The kitty id {:?}, price is = {:?}", kitty_id, new_price.clone());
             // ACTION #3: Deposit a "PriceSet" event.
             // Deposit a "PriceSet" event.
             Self::deposit_event(Event::PriceSet(sender, kitty_id, new_price));
-    
+
             Ok(())
         }
 
-        #[pallet::weight(100)]
+        #[pallet::weight(T::KittiesWeightInfo::transfer())]
         pub fn transfer(
             origin: OriginFor<T>,
             to: T::AccountId,
@@ -227,7 +228,7 @@ pub mod pallet {
         }
 
         #[transactional]
-        #[pallet::weight(100)]
+        #[pallet::weight(T::KittiesWeightInfo::buy_kitty())]
         pub fn buy_kitty(
           origin: OriginFor<T>,
           kitty_id: T::Hash,
@@ -271,7 +272,7 @@ pub mod pallet {
 
         /// Breed two kitties to create a new generation
         /// of Kitties.
-        #[pallet::weight(100)]
+        #[pallet::weight(T::KittiesWeightInfo::breed_kitty())]
         pub fn breed_kitty(
             origin: OriginFor<T>,
             parent1: T::Hash,

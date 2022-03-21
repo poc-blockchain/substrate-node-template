@@ -6,7 +6,7 @@ use frame_support::{
 #[test]
 fn should_create_kitty() {
 	new_test_ext().execute_with(|| {
-		// Dispatch a signed extrinsic.
+	// Dispatch a signed extrinsic.
         let origin = Origin::signed(1);
         assert_ok!(KittiesModule::create_kitty(origin));
 	});

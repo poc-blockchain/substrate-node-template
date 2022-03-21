@@ -1,1 +1,1 @@
-RUST_BACKTRACE=1 cargo test -p pallet-kitties
+RUST_BACKTRACE=1 cargo test -p pallet-kitties --all-features

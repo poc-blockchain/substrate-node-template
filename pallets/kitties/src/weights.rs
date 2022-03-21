@@ -35,6 +35,10 @@ use sp_std::marker::PhantomData;
 
 pub trait WeightInfo {
 	fn create_kitty() -> Weight;
+	fn set_price() -> Weight;
+	fn transfer() -> Weight;
+	fn buy_kitty() -> Weight;
+	fn breed_kitty() -> Weight;
 }
 
 /// Weight functions for `pallet_kitties`.
@@ -48,8 +52,36 @@ impl<T: frame_system::Config> WeightInfo for SubstrateWeightInfo<T> {
 	// Storage: Kitties Kitties (r:1 w:1)
 	// Storage: Kitties KittiesOwned (r:1 w:1)
 	fn create_kitty() -> Weight {
-		(46_593_000 as Weight)
+		(46_278_000 as Weight)
 			.saturating_add(T::DbWeight::get().reads(6 as Weight))
+			.saturating_add(T::DbWeight::get().writes(3 as Weight))
+	}
+	// Storage: Kitties Kitties (r:1 w:1)
+	fn set_price() -> Weight {
+		(28_272_000 as Weight)
+			.saturating_add(T::DbWeight::get().reads(1 as Weight))
+			.saturating_add(T::DbWeight::get().writes(1 as Weight))
+	}
+
+	// Storage: Kitties Kitties (r:1 w:1)
+	// Storage: Kitties KittiesOwned (r:2 w:2)
+	fn transfer() -> Weight {
+		(25_658_000 as Weight)
+			.saturating_add(T::DbWeight::get().reads(3 as Weight))
+			.saturating_add(T::DbWeight::get().writes(3 as Weight))
+	}
+	fn buy_kitty() -> Weight {
+		(233_000 as Weight)
+	}
+	// Storage: Kitties Kitties (r:3 w:1)
+	// Storage: RandomnessCollectiveFlip RandomMaterial (r:1 w:0)
+	// Storage: unknown [0x3a65787472696e7369635f696e646578] (r:1 w:0)
+	// Storage: Timestamp Now (r:1 w:0)
+	// Storage: Kitties KittyCnt (r:1 w:1)
+	// Storage: Kitties KittiesOwned (r:1 w:1)
+	fn breed_kitty() -> Weight {
+		(53_706_000 as Weight)
+			.saturating_add(T::DbWeight::get().reads(8 as Weight))
 			.saturating_add(T::DbWeight::get().writes(3 as Weight))
 	}
 }
@@ -58,6 +90,34 @@ impl WeightInfo for () {
 	fn create_kitty() -> Weight {
 		(46_593_000 as Weight)
 			.saturating_add(RocksDbWeight::get().reads(6 as Weight))
+			.saturating_add(RocksDbWeight::get().writes(3 as Weight))
+	}
+	// Storage: Kitties Kitties (r:1 w:1)
+	fn set_price() -> Weight {
+		(22_523_000 as Weight)
+			.saturating_add(RocksDbWeight::get().reads(1 as Weight))
+			.saturating_add(RocksDbWeight::get().writes(1 as Weight))
+	}
+
+	// Storage: Kitties Kitties (r:1 w:1)
+	// Storage: Kitties KittiesOwned (r:2 w:2)
+	fn transfer() -> Weight {
+		(25_658_000 as Weight)
+			.saturating_add(RocksDbWeight::get().reads(3 as Weight))
+			.saturating_add(RocksDbWeight::get().writes(3 as Weight))
+	}
+	fn buy_kitty() -> Weight {
+		(233_000 as Weight)
+	}
+	// Storage: Kitties Kitties (r:3 w:1)
+	// Storage: RandomnessCollectiveFlip RandomMaterial (r:1 w:0)
+	// Storage: unknown [0x3a65787472696e7369635f696e646578] (r:1 w:0)
+	// Storage: Timestamp Now (r:1 w:0)
+	// Storage: Kitties KittyCnt (r:1 w:1)
+	// Storage: Kitties KittiesOwned (r:1 w:1)
+	fn breed_kitty() -> Weight {
+		(53_706_000 as Weight)
+			.saturating_add(RocksDbWeight::get().reads(8 as Weight))
 			.saturating_add(RocksDbWeight::get().writes(3 as Weight))
 	}
 }
