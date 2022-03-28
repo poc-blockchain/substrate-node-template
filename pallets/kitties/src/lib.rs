@@ -403,6 +403,15 @@ pub mod pallet {
 
             Ok(())
         }
+
+        pub fn get_kitty_in_pallet(kitty_id: &T::Hash) -> ([u8; 16], Gender) {
+            log::info!("A kitty_id {:?}", kitty_id);
+            // let default_hash = hex!("5198bfa9da6f9c9d22dd2b0ce301dde9fd3c5826a117705d3ffa415d83a6bde8");
+            let kitty = Self::kitties(&kitty_id).unwrap();
+            log::info!("Found kitty with dna: {:?}", kitty.dna);
+
+            (kitty.dna, kitty.gender)
+        }
     }
 
 }

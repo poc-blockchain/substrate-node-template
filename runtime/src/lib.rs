@@ -422,6 +422,12 @@ impl_runtime_apis! {
 		}
 	}
 
+	impl pallet_kitties_rpc_runtime_api::KittiesRuntimeApi<Block> for Runtime {
+		fn get_kitty_runtime(kitty_id: Hash) -> ([u8; 16], pallet_kitties::Gender) {
+			Kitties::get_kitty_in_pallet(&kitty_id)
+		}
+	}
+
 	impl sp_consensus_aura::AuraApi<Block, AuraId> for Runtime {
 		fn slot_duration() -> sp_consensus_aura::SlotDuration {
 			sp_consensus_aura::SlotDuration::from_millis(Aura::slot_duration())

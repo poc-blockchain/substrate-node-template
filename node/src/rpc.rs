@@ -34,6 +34,7 @@ where
 	C::Api: pallet_transaction_payment_rpc::TransactionPaymentRuntimeApi<Block, Balance>,
 	C::Api: BlockBuilder<Block>,
 	C::Api: pallet_template_rpc_runtime_api::SumStorageApi<Block>,
+	C::Api: pallet_kitties_rpc_runtime_api::KittiesRuntimeApi<Block>,
 	P: TransactionPool + 'static,
 {
 	use pallet_transaction_payment_rpc::{TransactionPayment, TransactionPaymentApi};
@@ -47,6 +48,7 @@ where
 
 	io.extend_with(TransactionPaymentApi::to_delegate(TransactionPayment::new(client.clone())));
 	io.extend_with(pallet_template_rpc::SumStorageApi::to_delegate(pallet_template_rpc::SumStorage::new(client.clone())));
+	io.extend_with(pallet_kitties_rpc::KittiesApi::to_delegate(pallet_kitties_rpc::Kitties::new(client.clone())));
 
 	// Extend this RPC with a custom API by using the following syntax.
 	// `YourRpcStruct` should have a reference to a client, which is needed

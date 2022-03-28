@@ -1,0 +1,22 @@
+[package]
+name = "pallet-kitties-rpc"
+version = "0.1.0"
+edition = "2021"
+description = "RPC interface for the kitties pallet."
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+jsonrpc-core = "18.0.0"
+jsonrpc-core-client = "18.0.0"
+jsonrpc-derive = "18.0.0"
+
+sp-api = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
+sp-blockchain = { version = "4.0.0-dev", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
+sp-core = { version = "5.0.0", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
+sp-rpc = { version = "5.0.0", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
+sp-runtime = { version = "5.0.0", git = "https://github.com/paritytech/substrate.git", tag = "devhub/latest" }
+pallet-kitties-rpc-runtime-api = { version = "0.1.0", path = "./runtime-api" } 
