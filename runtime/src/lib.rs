@@ -416,6 +416,12 @@ impl_runtime_apis! {
 		}
 	}
 
+	impl pallet_template_rpc_runtime_api::SumStorageApi<Block> for Runtime {
+		fn get_sum() -> u32 {
+			TemplateModule::sum_storage()
+		}
+	}
+
 	impl sp_consensus_aura::AuraApi<Block, AuraId> for Runtime {
 		fn slot_duration() -> sp_consensus_aura::SlotDuration {
 			sp_consensus_aura::SlotDuration::from_millis(Aura::slot_duration())
