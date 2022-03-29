@@ -412,6 +412,9 @@ pub mod pallet {
 
             (kitty.dna, kitty.gender)
         }
-    }
 
+        pub fn count_kitty_in_pallet() -> u64 {
+            KittyCnt::<T>::get()
+        }
+    }
 }

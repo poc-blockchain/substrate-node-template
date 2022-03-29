@@ -426,6 +426,10 @@ impl_runtime_apis! {
 		fn get_kitty_runtime(kitty_id: Hash) -> ([u8; 16], pallet_kitties::Gender) {
 			Kitties::get_kitty_in_pallet(&kitty_id)
 		}
+
+		fn count_kitties_runtime() -> u64 {
+			Kitties::count_kitty_in_pallet()
+		}
 	}
 
 	impl sp_consensus_aura::AuraApi<Block, AuraId> for Runtime {
