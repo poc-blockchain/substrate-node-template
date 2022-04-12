@@ -1,0 +1,10 @@
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "author_insertKey",
+    "params": [
+        "aura",
+        "pear include lens surround girl cattle alley cool sauce forget actual bullet",
+        "0x8ed2ae601a8021f4fe6a307773ccc62d8d70d72a11b4edb66c721538633dd407"
+    ]
+}

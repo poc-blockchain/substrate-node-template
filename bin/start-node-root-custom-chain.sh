@@ -1,0 +1,11 @@
+./target/release/node-template \
+--base-path ./data/node01 \
+--chain ./customSpecRaw.json \
+--port 30333 \
+--ws-port 9945 \
+--rpc-port 9933 \
+--telemetry-url "wss://telemetry.polkadot.io/submit/ 0" \
+--validator \
+--rpc-methods Unsafe \
+--name MyNode01 \
+--node-key b93e95279d3b10012275a6d4ead82940b0de3d044e4cf0ba3e1e5ab13680508b

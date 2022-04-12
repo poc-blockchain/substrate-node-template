@@ -1,0 +1,10 @@
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "author_insertKey",
+    "params": [
+        "aura",
+        "vote pulp social belt room behind front midnight slim excuse submit spirit",
+        "0x8c1b4106b3e6605e77e9b59dfb5d62f0dbc8f3107307d425c82058b50968ab2c"
+    ]
+}

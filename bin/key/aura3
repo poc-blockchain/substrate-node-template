@@ -1,0 +1,10 @@
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "author_insertKey",
+    "params": [
+        "aura",
+        "lab know aunt bomb tonight purpose tuna drill shiver physical case wild",
+        "0xfe38220064abf04fe6609765510e6d5483380ef474bdeadf2b0ff3ab21b8e25b"
+    ]
+}
